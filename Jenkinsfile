@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build(“asadali/gokubedemo”)
+        app = docker.build("asadali/gokubedemo")
     }
 
     stage('Test image') {

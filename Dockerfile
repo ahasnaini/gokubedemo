@@ -3,12 +3,12 @@
 FROM golang:1.8.1-alpine
 
 # Copy the local package files to the container's workspace.
-ADD . /gokubedemo/
+ADD . /go/src/github.com/ahasnaini/gokubedemo/
 
-# Build the outyet command inside the container.
-# (You may fetch or manage dependencies here,
-# either manually or with a tool like "godep".)
-#RUN go install github.com/golang/example/outyet
+RUN go install github.com/ahasnaini/gokubedemo/
 
-# Run the outyet command by default when the container starts.
-ENTRYPOINT ["./gokubedemo/main"]
+# Run the gokubedemo command by default when the container starts.
+ENTRYPOINT /go/bin/gokubedemo
+
+# Document that the service listens on port 9090.
+EXPOSE 9090

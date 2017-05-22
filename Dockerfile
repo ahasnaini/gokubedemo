@@ -11,4 +11,4 @@ ADD . /gokubedemo/
 #RUN go install github.com/golang/example/outyet
 
 # Run the outyet command by default when the container starts.
-ENTRYPOINT ["./main"]gi
+ENTRYPOINT ["./gokubedemo/main"]

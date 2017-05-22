@@ -5,9 +5,19 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
+	"log"
 )
 
 func main() {
+
+	http.HandleFunc("/", GetIP) // set router
+	err := http.ListenAndServe(":9090", nil) // set listen port
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
+func GetIP(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := http.Get("https://canhazip.com/")
 	if err != nil {
@@ -17,4 +27,6 @@ func main() {
 	body, err := ioutil.ReadAll(resp.Body)
 	fmt.Print("v1 - " + string(body) )
 	fmt.Println(time.Now().Format(time.RFC850))
+	fmt.Fprintf(w, "v1 - " + string(body) ) // send data to client side
+	fmt.Fprintf(w, time.Now().Format(time.RFC850)) // send data to client side
 }

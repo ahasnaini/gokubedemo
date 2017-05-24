@@ -33,10 +33,10 @@ node {
             if (env.BRANCH_NAME == 'master') {
             app.push("latest")
             }
-            if (env.BRANCH_NAME == 'master') {
-                        app.push("master")
-                        }
-
+            if (env.BRANCH_NAME == 'development') {
+            app.push("dev")
+            }
+            sh('docker rmi $(docker images -f dangling=true -q)')
         }
     }
 }

@@ -41,13 +41,14 @@ node {
 
     stage('Remove Images') {
 
-try {
+        try {
                 sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
-            }
-            finally {
+        }
+        finally {
                 currentStage.result =  'SUCCESS'
                 currentBuild.result = 'SUCCESS'
-            }
+        }
             currentStage.result =  'SUCCESS'
+            currentBuild.result = 'SUCCESS'
         }
 }

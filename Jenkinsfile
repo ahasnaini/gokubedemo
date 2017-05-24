@@ -46,7 +46,8 @@ try {
             }
             finally {
                 currentStage.result =  'SUCCESS'
+                currentBuild.result = 'SUCCESS'
             }
-
+            currentStage.result =  'SUCCESS'
         }
 }

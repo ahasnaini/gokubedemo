@@ -34,7 +34,7 @@ node {
             app.push("latest")
             }
             if (env.BRANCH_NAME == 'master') {
-                        app.push("development")
+                        app.push("master")
                         }
 
         }

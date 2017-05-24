@@ -40,7 +40,7 @@ node {
     }
 
     stage('Remove Images') {
-                sh('docker images | grep "gokubedemo" | awk "{print \$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
+                sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
     }
 }

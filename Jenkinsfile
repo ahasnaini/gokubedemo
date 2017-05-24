@@ -41,6 +41,12 @@ node {
 
     stage('Remove Images') {
 
-            sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
+try {
+                sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
+            }
+            finally {
+
+            }
+
         }
 }

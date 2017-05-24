@@ -36,7 +36,11 @@ node {
             if (env.BRANCH_NAME == 'development') {
             app.push("dev")
             }
-            sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
         }
     }
+
+    stage('Remove Images') {
+
+            sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
+        }
 }

@@ -36,7 +36,7 @@ node {
             if (env.BRANCH_NAME == 'development') {
             app.push("dev")
             }
-            sh('docker rmi $(docker images -f dangling=true -q)')
+            sh('docker images | grep "gokubedemo" | awk '{print $3}' | uniq | xargs docker rmi -f')
         }
     }
 }

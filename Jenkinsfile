@@ -41,14 +41,6 @@ node {
 
     stage('Remove Images') {
 
-        try {
-                sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs docker rmi -f')
-        }
-        finally {
-                currentStage.result =  'SUCCESS'
-                currentBuild.result = 'SUCCESS'
-        }
-            currentStage.result =  'SUCCESS'
-            currentBuild.result = 'SUCCESS'
-        }
+                sh('docker images | grep "gokubedemo" | awk "{print $3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
+
 }

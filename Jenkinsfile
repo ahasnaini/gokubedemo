@@ -41,7 +41,7 @@ node {
 
     stage('Deploy') {
             sh('kubectl apply -f deployment.yml')
-            sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:${env.BUILD_NUMBER}-${env.BRANCH_NAME}')
+            sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:"${env.BUILD_NUMBER}-${env.BRANCH_NAME}"')
         }
 
     stage('Remove Images') {

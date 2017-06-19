@@ -44,13 +44,13 @@ node {
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
     }
     
-    stage('Trigger Deploy'){
+    /*stage('Trigger Deploy'){
         if (env.BRANCH_NAME == 'development') {
                 build 'gokubedemo - Deploy to Staging'
         }
     }
 
-    /*stage('Deploy') {
+    stage('Deploy') {
             sh('kubectl apply -f deployment.yml')
             sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:$BUILD_NUMBER-$BRANCH_NAME')
         }   */ 

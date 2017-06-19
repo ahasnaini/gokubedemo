@@ -1,6 +1,6 @@
 node {
     def app
-    currentBuild.displayName = 1.0."${env.BUILD_NUMBER}"
+    currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
     stage('Clone repository') {
         
         checkout scm

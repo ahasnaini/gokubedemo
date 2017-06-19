@@ -38,14 +38,14 @@ node {
             }
         }
     }
-
-    stage('Deploy') {
-            sh('kubectl apply -f deployment.yml')
-            sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:$BUILD_NUMBER-$BRANCH_NAME')
-        }
-
+    
     stage('Remove Images') {
                 sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
     }
+
+    /*stage('Deploy') {
+            sh('kubectl apply -f deployment.yml')
+            sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:$BUILD_NUMBER-$BRANCH_NAME')
+        }   */ 
 }

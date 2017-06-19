@@ -1,6 +1,6 @@
 node {
     def app
-
+    currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 

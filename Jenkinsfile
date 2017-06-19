@@ -44,7 +44,6 @@ node {
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
     }
     
-    input 'Do you want to proceed to the Deployment?'
     stage('Trigger Deploy'){
         if (env.BRANCH_NAME == 'development') {
                 build 'gokubedemo - Deploy to Staging'

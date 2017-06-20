@@ -11,4 +11,4 @@ RUN go install github.com/ahasnaini/gokubedemo/
 ENTRYPOINT /go/bin/gokubedemo
 
 # Document that the service listens on port 9090.
-EXPOSE 9090
+EXPOSE 80

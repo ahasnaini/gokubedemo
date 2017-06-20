@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: demo-app-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: demo-app
+        image: asadali/gokubedemo:dev
+        imagePullPolicy: IfNotPresent
+        resources:
+              limits:
+                cpu: 200m
+                memory: 200Mi
+              requests:
+                cpu: 200m
+                memory: 200Mi
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: demo-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-http-service
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: demo-app
+  type: LoadBalancer

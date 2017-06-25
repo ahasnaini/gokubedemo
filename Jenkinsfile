@@ -1,10 +1,13 @@
 node {
     def app
+    def commit_id
     currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
         checkout scm
+        sh "git rev-parse --short HEAD > .git/commit-id"
+        commit_id = readFile('.git/commit-id').trim()
     }
 
     stage('Build image') {
@@ -30,6 +33,7 @@ node {
          * Pushing multiple tags is cheap, as all the layers are reused. */
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}-${env.BRANCH_NAME}")
+            app.push("${env.BRANCH_NAME}-${commit_id}")
             if (env.BRANCH_NAME == 'master') {
             app.push("latest")
             }

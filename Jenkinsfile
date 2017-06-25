@@ -1,13 +1,13 @@
 node {
     def app
     def commit_id
-    currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"
         commit_id = readFile('.git/commit-id').trim()
+        currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
     }
 
     stage('Build image') {

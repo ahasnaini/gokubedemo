@@ -1,24 +1,28 @@
-node {
+
     def app
     currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
     stage('Clone repository') {
-        
+        node {
         checkout scm
+        }
     }
 
     stage('Build image') {
-        
+        node {
         app = docker.build("asadali/gokubedemo")
+        }
     }
 
     stage('Test image') {
-        
+        node {
         app.inside {
             sh 'echo "Tests passed"'
+        }
         }
     }
 
     stage('Push image') {
+        node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}-${env.BRANCH_NAME}")
             if (env.BRANCH_NAME == 'master') {
@@ -28,22 +32,24 @@ node {
             app.push("dev")
             }
         }
+        }
     }
     
     stage('Remove Images') {
+        node {
                 sh('echo "1.0.$BUILD_NUMBER"')
                 sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
+        }
     }
     
-    /*stage('Trigger Deploy'){
+    stage('Trigger Deploy'){
         if (env.BRANCH_NAME == 'development') {
-                build 'gokubedemo - Deploy to Staging'
+                def job = build job: 'project-c', parameters: [[$class: 'StringParameterValue', name: 'MY_PARAM', value: 'somevalue']]
         }
     }
 
-    stage('Deploy') {
+    /*stage('Deploy') {
             sh('kubectl apply -f deployment.yml')
             sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:$BUILD_NUMBER-$BRANCH_NAME')
         }   */ 
-}

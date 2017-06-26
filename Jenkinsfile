@@ -1,7 +1,8 @@
-node {
+
     def app
     def commit_id
     stage('Clone repository') {
+        node {
         /* Let's make sure we have the repository cloned to our workspace */
 
         checkout scm
@@ -9,21 +10,24 @@ node {
         commit_id = readFile('.git/commit-id').trim()
         currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
     }
+    }
 
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-
+node {
         app = docker.build("asadali/gokubedemo")
+}
     }
 
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
-
+node {
         app.inside {
             sh 'echo "Tests passed"'
         }
+}
     }
 
     stage('Push image') {
@@ -31,6 +35,7 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
+        node {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}-${env.BRANCH_NAME}")
             app.push("${env.BRANCH_NAME}-${commit_id}")
@@ -42,21 +47,23 @@ node {
             }
         }
     }
+    }
     
     stage('Remove Images') {
+        node {
                 sh('echo "1.0.$BUILD_NUMBER"')
                 sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
                 sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
     }
+    }
     
-    /*stage('Trigger Deploy'){
+    stage('Trigger Deploy'){
         if (env.BRANCH_NAME == 'development') {
-                build 'gokubedemo - Deploy to Staging'
+                 def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '${env.BRANCH_NAME}-${commit_id}']]
         }
     }
 
-    stage('Deploy') {
+    /*stage('Deploy') {
             sh('kubectl apply -f deployment.yml')
             sh('kubectl set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:$BUILD_NUMBER-$BRANCH_NAME')
         }   */ 
-}

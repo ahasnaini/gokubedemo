@@ -5,7 +5,7 @@
         node {
         /* Let's make sure we have the repository cloned to our workspace */
 
-        checkout scm
+        git branch: 'development', credentialsId: '9b803686-2f39-4a23-8f47-cb6428f69e1e', url: 'https://github.com/ahasnaini/gokubedemo.git'
         sh "git rev-parse --short HEAD > .git/commit-id"
         commit_id = readFile('.git/commit-id').trim()
         currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"

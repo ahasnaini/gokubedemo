@@ -3,8 +3,8 @@ def app
 stage('Clone repository') {
 node {
 /* Let's make sure we have the repository cloned to our workspace */
-git config --global user.email "ahasnaini@hotmail.com"
-git config --global user.name "Asad Ali"
+sh "git config --global user.email 'ahasnaini@hotmail.com'"
+sh "git config --global user.name 'Asad Ali'"
 git branch: 'development', credentialsId: '9b8036862f394a238f47cb6428f69e1e', url: 'https://github.com/ahasnaini/gokubedemo.git'
 sh "git rev-parse short HEAD > .git/commitid"
 commit_id = readFile('.git/commitid').trim()

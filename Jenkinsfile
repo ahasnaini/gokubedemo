@@ -1,41 +1,44 @@
-def app
+
+node {
+    def app
     def commit_id
 stage('Clone repository') {
-node {
+
 /* Let's make sure we have the repository cloned to our workspace */
 sh "git config --global user.email 'ahasnaini@hotmail.com'"
 sh "git config --global user.name 'Asad Ali'"
+sh 'echo "git config done"'
 git branch: 'development', credentialsId: '9b8036862f394a238f47cb6428f69e1e', url: 'https://github.com/ahasnaini/gokubedemo.git'
 sh "git rev-parse short HEAD > .git/commitid"
 commit_id = readFile('.git/commitid').trim()
 currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
 }
-}
+
 
 stage('Build image') {
 /* This builds the actual image; synonymous to
 * docker build on the command line */
-node {
+
 app = docker.build("asadali/gokubedemo")
-}
+
 }
 
 stage('Test image') {
 /* Ideally, we would run a test framework against our image.
 * For this example, we're using a Volkswagentype approach ;) */
-node {
+
 app.inside {
 sh 'echo "Tests passed"'
 }
 }
-}
 
+    
 stage('Push image') {
 /* Finally, we'll push the image with two tags:
 * First, the incremental build number from Jenkins
 * Second, the 'latest' tag.
 * Pushing multiple tags is cheap, as all the layers are reused. */
-node {
+
 docker.withRegistry('https://registry.hub.docker.com', 'dockerhubcredentials') {
 app.push("${env.BUILD_NUMBER}${env.BRANCH_NAME}")
 app.push("${env.BRANCH_NAME}${commit_id}")

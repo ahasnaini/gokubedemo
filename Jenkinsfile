@@ -25,9 +25,9 @@ stage('Test image') {
 /* Ideally, we would run a test framework against our image.
 * For this example, we're using a Volkswagentype approach ;) */
 
-app.inside {
+//app.inside {
 sh 'echo "Tests passed"'
-}
+//}
 }
 
     

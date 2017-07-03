@@ -52,9 +52,9 @@ app.push("dev")
 
 stage('Remove Images') {
     node('master'){
- sh('echo "1.0.$BUILD_NUMBER"')
- sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs norunifempty docker rmi f')
- sh('docker images quiet filter=dangling=true | xargs norunifempty docker rmi')
+sh('echo "1.0.$BUILD_NUMBER"')
+sh('docker images | grep "gokubedemo" | awk "{print \\$3}" | uniq | xargs --no-run-if-empty docker  rmi -f')
+sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docker rmi')
 }
 }
 

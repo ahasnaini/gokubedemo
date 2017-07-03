@@ -5,13 +5,10 @@ node {
 stage('Clone repository') {
 
 /* Let's make sure we have the repository cloned to our workspace */
-sh "git config --global user.email 'ahasnaini@hotmail.com'"
-sh "git config --global user.name 'Asad Ali'"
-sh 'echo "git config done"'
-checkout scm
 git branch: 'development', credentialsId: '9b8036862f394a238f47cb6428f69e1e', url: 'https://github.com/ahasnaini/gokubedemo.git'
-sh "git rev-parse short HEAD > .git/commitid"
-commit_id = readFile('.git/commitid').trim()
+checkout scm
+sh "git rev-parse --short HEAD > .git/commit-id"
+commit_id = readFile('.git/commit-id').trim()
 currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
 }
 

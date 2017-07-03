@@ -22,9 +22,6 @@ app = docker.build("asadali/gokubedemo")
 }
 
 stage('Test image') {
-/* Ideally, we would run a test framework against our image.
-* For this example, we're using a Volkswagentype approach ;) */
-
 //app.inside {
 sh 'echo "Tests passed"'
 //}
@@ -38,14 +35,9 @@ stage('Push image') {
 * Pushing multiple tags is cheap, as all the layers are reused. */
 
 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-app.push("${env.BUILD_NUMBER}${env.BRANCH_NAME}")
-app.push("${env.BRANCH_NAME}${commit_id}")
-if (env.BRANCH_NAME == 'master') {
-app.push("latest")
-}
-if (env.BRANCH_NAME == 'development') {
-app.push("dev")
-}
+app.push("${env.BUILD_NUMBER}-${env.BRANCH_NAME}")
+app.push("${env.BRANCH_NAME}-${commit_id}")
+app.push("1.0.${env.BUILD_NUMBER}.${commit_id}")
 }
 }
 }

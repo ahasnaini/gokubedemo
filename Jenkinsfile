@@ -59,9 +59,10 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
+     node{
         if (env.BRANCH_NAME == 'development') {
                  def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '${env.BRANCH_NAME}-${commit_id}']]
-        }
+        }}
     }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')

@@ -22,9 +22,9 @@ app = docker.build("asadali/gokubedemo")
 }
 
 stage('Test image') {
-//app.inside {
+app.inside {
 sh 'echo "Tests passed"'
-//}
+}
 }
 
     

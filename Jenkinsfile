@@ -35,8 +35,6 @@ stage('Push image') {
 * Pushing multiple tags is cheap, as all the layers are reused. */
 
 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-app.push("${env.BUILD_NUMBER}-${env.BRANCH_NAME}")
-app.push("${env.BRANCH_NAME}-${commit_id}")
 app.push("1.0.${env.BUILD_NUMBER}.${commit_id}")
 }
 }
@@ -51,7 +49,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
-                 def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '${env.BRANCH_NAME}-${commit_id}']]
+                 def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '1.0.${env.BUILD_NUMBER}.${commit_id}']]
     }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')

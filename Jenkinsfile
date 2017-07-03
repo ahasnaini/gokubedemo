@@ -58,12 +58,11 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 }
 
-stage('Trigger Deploy'){
-if (env.BRANCH_NAME == 'development') {
-  def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '${env.BRANCH_NAME}${commit_id}']]
-}
-}
-
+ stage('Trigger Deploy'){
+        if (env.BRANCH_NAME == 'development') {
+                 def job = build job: 'Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '${env.BRANCH_NAME}-${commit_id}']]
+        }
+    }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')
 sh('kubectl set image deployment/demoappdeployment demoapp=asadali/gokubedemo:$BUILD_NUMBER$BRANCH_NAME')

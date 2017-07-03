@@ -37,7 +37,7 @@ stage('Push image') {
 * Second, the 'latest' tag.
 * Pushing multiple tags is cheap, as all the layers are reused. */
 
-docker.withRegistry('https://registry.hub.docker.com', 'dockerhubcredentials') {
+docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 app.push("${env.BUILD_NUMBER}${env.BRANCH_NAME}")
 app.push("${env.BRANCH_NAME}${commit_id}")
 if (env.BRANCH_NAME == 'master') {

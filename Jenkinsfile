@@ -10,6 +10,7 @@ checkout scm
 sh "git rev-parse --short HEAD > .git/commit-id"
 commit_id = readFile('.git/commit-id').trim()
 currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
+sh "printenv"
 }
 
 

@@ -49,7 +49,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
-                 def job = build job: 'GoKubeDemo/Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: '1.0.${env.BUILD_NUMBER}.${commit_id}']]
+                 def job = build job: 'GoKubeDemo/Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
     }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')

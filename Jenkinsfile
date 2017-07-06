@@ -9,7 +9,8 @@ git branch: 'development', credentialsId: '9b8036862f394a238f47cb6428f69e1e', ur
 checkout scm
 sh "git rev-parse --short HEAD > .git/commit-id"
 commit_id = readFile('.git/commit-id').trim()
-currentBuild.displayName = "1.0.${env.BUILD_NUMBER}.${commit_id}"
+currentBuild.displayName = "1.0.${env.BUILD_NUMBER}"
+sh "printenv"
 }
 
 
@@ -35,7 +36,7 @@ stage('Push image') {
 * Pushing multiple tags is cheap, as all the layers are reused. */
 
 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-app.push("1.0.${env.BUILD_NUMBER}.${commit_id}")
+app.push("1.0.${env.BUILD_NUMBER}")
 }
 }
 }
@@ -49,7 +50,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
-                 def job = build job: 'GoKubeDemo/Deploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
+                 def job = build job: 'GoKubeDemo/PrepareDeploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
     }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')

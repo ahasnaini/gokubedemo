@@ -5,7 +5,7 @@ node {
 stage('Clone repository') {
 
 /* Let's make sure we have the repository cloned to our workspace */
-git branch: 'development', credentialsId: '9b8036862f394a238f47cb6428f69e1e', url: 'https://github.com/ahasnaini/gokubedemo.git'
+git branch: 'development', credentialsId: 'github', url: 'https://github.com/ahasnaini/gokubedemo.git'
 checkout scm
 sh "git rev-parse --short HEAD > .git/commit-id"
 commit_id = readFile('.git/commit-id').trim()

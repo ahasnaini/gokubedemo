@@ -17,7 +17,6 @@ sh "printenv"
 stage('Build image') {
 /* This builds the actual image; synonymous to
 * docker build on the command line */
-
 app = docker.build("asadali/gokubedemo")
 
 }
@@ -50,7 +49,18 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
-                 def job = build job: 'GoKubeDemo/PrepareDeploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
+     node {
+         if(env.JOB_NAME=="GoKubeDemo/Master")
+     {
+         def job = build job: 'GoKubeDemo/PrepareDeploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
+     }
+     if(env.JOB_NAME=="GoKubeDemo/Development")
+     {
+         sh('echo "Deploying to kube"')
+         /*sh('kubectl apply f deployment.yml')
+         sh('kubectl set image deployment/demoappdeployment demoapp=asadali/gokubedemo:$BUILD_NUMBER$BRANCH_NAME')*/
+     }
+     }
     }
 /*stage('Deploy') {
 sh('kubectl apply f deployment.yml')

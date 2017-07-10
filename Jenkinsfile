@@ -17,7 +17,7 @@ sh "printenv"
 stage('Build image') {
 /* This builds the actual image; synonymous to
 * docker build on the command line */
-
+sh "alias docker='sudo docker'"
 app = docker.build("asadali/gokubedemo")
 
 }

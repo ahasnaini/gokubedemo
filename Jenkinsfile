@@ -56,7 +56,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
      }
      if(env.JOB_NAME=="GoKubeDemo/Development")
      {
-         sh('Deploying to kube')
+         sh('echo "Deploying to kube"')
          /*sh('kubectl apply f deployment.yml')
          sh('kubectl set image deployment/demoappdeployment demoapp=asadali/gokubedemo:$BUILD_NUMBER$BRANCH_NAME')*/
      }

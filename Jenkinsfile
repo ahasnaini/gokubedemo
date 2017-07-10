@@ -50,11 +50,11 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 }
 
  stage('Trigger Deploy'){
-     if(env.JOB_NAME=="GoKubeDemo/Master")
+     if(env.JOB_NAME="GoKubeDemo/Master")
      {
          def job = build job: 'GoKubeDemo/PrepareDeploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
      }
-     if(env.JOB_NAME=="GoKubeDemo/Development")
+     if(env.JOB_NAME="GoKubeDemo/Development")
      {
          sh('Deploying to kube')
          /*sh('kubectl apply f deployment.yml')

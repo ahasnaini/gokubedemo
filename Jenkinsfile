@@ -35,10 +35,9 @@ stage('Push image') {
 * Pushing multiple tags is cheap, as all the layers are reused. */
 
 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-    if(env.JOB_NAME=="GoKubeDemo/Master")
-     {
+    
          app.push("1.0.${env.BUILD_NUMBER}.${env.JOB_BASE_NAME}")
-     }
+    
 }
 }
 }

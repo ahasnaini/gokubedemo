@@ -52,6 +52,8 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
 
  stage('Trigger Deploy'){
      node('master') {
+         git branch: 'development', credentialsId: 'github', url: 'https://github.com/ahasnaini/gokubedemo.git'
+         checkout scm
          if(env.JOB_NAME=="GoKubeDemo/Master")
      {
          def job = build job: 'GoKubeDemo/PrepareDeploy', parameters: [[$class: 'StringParameterValue', name: 'IMAGE_TO_DEPLOY', value: currentBuild.displayName]]
@@ -59,8 +61,8 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
      if(env.JOB_NAME=="GoKubeDemo/Development")
      {
          sh('echo "Deploying to kube"')
-         /*sh('kubectl apply f deployment.yml')
-         sh('kubectl set image deployment/demoappdeployment demoapp=asadali/gokubedemo:$BUILD_NUMBER$BRANCH_NAME')*/
+         sh('export PATH=$PATH:/var/jenkins_home/ && kubectl --context=dev.kubernetes.asadali.net apply -f deployment.yml')
+         sh('export PATH=$PATH:/var/jenkins_home/ && kubectl --context=dev.kubernetes.asadali.net set image deployment/demo-app-deployment demo-app=asadali/gokubedemo:1.0.$BUILD_NUMBER.$JOB_BASE_NAME')
      }
      }
     }

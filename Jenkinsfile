@@ -60,7 +60,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
      {
          sh('echo "Deploying to kube"')
          sh('.././var/jenkins_home/kubectl --context=dev.kubernetes.asadali.net apply f deployment.yml')
-         sh('.././var/jenkins_home/kubectl get nodes --context=dev.kubernetes.asadali.net set image deployment/demoappdeployment demoapp=asadali/gokubedemo:1.0.$BUILD_NUMBER.$JOB_BASE_NAME')
+         sh('.././var/jenkins_home/kubectl --context=dev.kubernetes.asadali.net set image deployment/demoappdeployment demoapp=asadali/gokubedemo:1.0.$BUILD_NUMBER.$JOB_BASE_NAME')
      }
      }
     }

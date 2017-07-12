@@ -59,7 +59,7 @@ sh('docker images --quiet --filter=dangling=true | xargs --no-run-if-empty docke
      if(env.JOB_NAME=="GoKubeDemo/Development")
      {
          sh('echo "Deploying to kube"')
-         sh('export PATH=$PATH:/var/jenkins_home/ && kubectl --context=dev.kubernetes.asadali.net apply f deployment.yml')
+         sh('export PATH=$PATH:/var/jenkins_home/ && kubectl --context=dev.kubernetes.asadali.net apply -f deployment.yml')
          sh('export PATH=$PATH:/var/jenkins_home/ && kubectl --context=dev.kubernetes.asadali.net set image deployment/demoappdeployment demoapp=asadali/gokubedemo:1.0.$BUILD_NUMBER.$JOB_BASE_NAME')
      }
      }

@@ -16,15 +16,8 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: asadali/gokubedemo:dev
+        image: asadali/gokubedemo:1.0.22.Development
         imagePullPolicy: IfNotPresent
-        resources:
-              limits:
-                cpu: 200m
-                memory: 200Mi
-              requests:
-                cpu: 200m
-                memory: 200Mi
         ports:
         - containerPort: 80
           protocol: TCP

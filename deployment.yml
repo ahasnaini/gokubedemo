@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: asadali/gokubedemo:1.0.22.Development
+        image: asadali/gokubedemo
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80

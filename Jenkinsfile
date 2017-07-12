@@ -37,6 +37,7 @@ stage('Push image') {
 docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
     
          app.push("1.0.${env.BUILD_NUMBER}.${env.JOB_BASE_NAME}")
+             app.push("latest")
     
 }
 }

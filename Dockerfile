@@ -10,5 +10,5 @@ RUN go install github.com/ahasnaini/gokubedemo/
 # Run the gokubedemo command by default when the container starts.
 ENTRYPOINT /go/bin/gokubedemo
 
-# Document that the service listens on port 9090.
+# Document that the service listens on port 80.
 EXPOSE 80

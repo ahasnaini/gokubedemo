@@ -25,6 +25,6 @@ func GetIP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Fprintf(w, "v1 - " + string(body) ) // send data to client side
+	fmt.Fprintf(w, "v0 - " + string(body) ) // send data to client side
 	fmt.Fprintf(w, time.Now().Format(time.RFC850)) // send data to client side
 }
